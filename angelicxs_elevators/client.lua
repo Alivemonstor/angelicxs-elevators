@@ -213,9 +213,16 @@ function isDisabled(index, floor, data)
 	local hasJob, hasItem = false, false
 	if floor.jobs ~= nil and next(floor.jobs) then
 		for jobName, gradeLevel in pairs(floor.jobs) do
-			if (PlayerData.job.name == jobName and PlayerData.job.grade.level >= gradeLevel)  or (PlayerData.citizenid == jobName) or (PlayerData.gang.name == jobName and PlayerData.gang.grade.level >= gradeLevel) then
-				hasJob = true
-				break
+			if Config.UseQBCore then
+				if (PlayerData.job.name == jobName and PlayerData.job.grade.level >= gradeLevel)  or (PlayerData.citizenid == jobName) or (PlayerData.gang.name == jobName and PlayerData.gang.grade.level >= gradeLevel) then
+					hasJob = true
+					break
+				end
+			else
+				if (PlayerData.job.name == jobName and tonumber(PlayerData.job.grade) >= gradeLevel)  or (PlayerData.citizenid == jobName) or (PlayerData.gang.name == jobName and tonumber(PlayerData.gang.grade) >= gradeLevel) then
+					hasJob = true
+					break
+				end
 			end
 		end
 	end
@@ -266,3 +273,4 @@ function DrawText3Ds(x,y,z, text)
 	local factor = (string.len(text)) / 370
 	DrawRect(_x,_y+0.0125, 0.015+ factor, 0.03, 41, 11, 41, 68)
 end
+
